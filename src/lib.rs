@@ -14,7 +14,7 @@ unsafe fn panic(_info: &PanicInfo) -> ! {
 }
 
 #[repr(C)]
-pub struct Segment {
+pub struct ElfSegment {
     address: usize,
     size: usize,
     data: *const u8,
@@ -33,7 +33,7 @@ pub enum ElfParseResult {
 pub unsafe extern "C" fn parse_elf(
     elf_data: *const u8,
     elf_size: usize,
-    mapping_callback: extern "C" fn(segment: Segment),
+    mapping_callback: extern "C" fn(segment: ElfSegment),
 ) -> ElfParseResult {
     let buffer = from_raw_parts(elf_data, elf_size);
 
@@ -54,7 +54,7 @@ pub unsafe extern "C" fn parse_elf(
                 Err(_) => return ElfParseResult::FailedToGetSegmentData,
             };
 
-            let segment = Segment {
+            let segment = ElfSegment {
                 address: header.p_vaddr as usize,
                 size: header.p_memsz as usize,
                 data: data.as_ptr(),
