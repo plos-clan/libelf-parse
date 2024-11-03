@@ -29,7 +29,7 @@ cbindgen --output elf_parse.h
 
 ```c
 #include <stdint.h>
-#include "elf_parser.h"
+#include "elf_parse.h"
 
 extern void *page_table;
 
