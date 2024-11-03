@@ -1,6 +1,6 @@
 # libelf-parse
 
-C binding of `object` crate for x86 or x86_64 OS to parse ELF files easily.
+C binding of `elf` crate for x86 or x86_64 OS to parse ELF files easily.
 
 ## Usage
 
@@ -37,7 +37,7 @@ void segment_callback(struct Segment segment) {
     printk("Segment address: 0x%lx\n", segment.address);
     printk("Segment size: %lu bytes\n", segment.size);
     alloc_and_map(page_table, segment.address, segment.size);
-    write_to_mapped_address(page_table, segment.data, segment.size, segment.address);
+    write_to_mapped_address(page_table, segment.address, segment.size, segment.data);
 }
 
 void elf_load_example() {
