@@ -15,19 +15,9 @@ unsafe fn panic(_info: &PanicInfo) -> ! {
 
 #[repr(C)]
 pub struct Segment {
-    address: u64,
-    size: u64,
+    address: usize,
+    size: usize,
     data: *const u8,
-}
-
-impl Segment {
-    pub fn new(address: u64, size: u64, data: *const u8) -> Self {
-        Self {
-            address,
-            size,
-            data,
-        }
-    }
 }
 
 #[repr(C)]
@@ -64,7 +54,11 @@ pub unsafe extern "C" fn parse_elf(
                 Err(_) => return ElfParseResult::FailedToGetSegmentData,
             };
 
-            let segment = Segment::new(header.p_vaddr, header.p_memsz, data.as_ptr());
+            let segment = Segment {
+                address: header.p_vaddr as usize,
+                size: header.p_memsz as usize,
+                data: data.as_ptr(),
+            };
             mapping_callback(segment);
         }
     }
