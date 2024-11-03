@@ -16,7 +16,6 @@ opt-level = 3
 strip = true
 codegen-units = 1
 
-[dependencies.object]
-version = "0.36.5"
-features = ["read_core", "elf", "unaligned"]
+[dependencies.elf]
+version = "0.7.4"
 default-features = false
